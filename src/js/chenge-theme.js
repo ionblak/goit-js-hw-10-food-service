@@ -2,13 +2,31 @@ const Theme = {
   LIGHT: 'light-theme',
   DARK: 'dark-theme',
 };
+const refs = {
+  input: document.querySelector('#theme-switch-toggle'),
+  body: document.querySelector('body'),
+};
 
-const inputRef = document.querySelector('#theme-switch-toggle');
-const bodyRef = document.querySelector('body');
-console.log(bodyRef);
-
-inputRef.addEventListener('change', chengeTheme);
+loadingThem();
+refs.input.addEventListener('change', chengeTheme);
 
 function chengeTheme() {
-  bodyRef.classList.add(Theme.DARK);
+  refs.body.classList.toggle(Theme.DARK);
+  refs.body.classList.toggle(Theme.LIGHT);
+
+  getCurrentTheme(refs.body.classList);
+}
+
+function getCurrentTheme(currentThem) {
+  localStorage.setItem('Theme', currentThem);
+}
+
+function loadingThem() {
+  const savedThem = localStorage.getItem('Theme');
+  if (savedThem === Theme.DARK) {
+    refs.body.classList.add(savedThem);
+    refs.input.checked = true;
+  } else {
+    refs.body.classList.add(Theme.LIGHT);
+  }
 }
